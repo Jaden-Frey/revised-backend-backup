@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dx = px - x;
             const dy = py - y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            return distance < (ps / 2 + size / 2) * 2.5;
+            return distance < (ps / 2 + size / 2) * 1.5;
         });
     }
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('iconPositions', JSON.stringify(positions));
         }
 
-        const size = 22.5 + Math.random() * 20; 
+        const size = 17.5 + Math.random() * 20; 
         const rotation = Math.random() * 360; 
 
         icon.style.left = `${x}px`;

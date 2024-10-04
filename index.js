@@ -50,9 +50,9 @@ app.use(express.json());
 // Define connectDB function
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/cryptoniteDB', {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
     console.log('MongoDB is connected');
   } catch (err) {

@@ -16,7 +16,7 @@
   "dependencies": {
     "@kurkle/color": "^0.3.2",
     "axios": "^1.7.2",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parse": "^0.1.0",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.3",

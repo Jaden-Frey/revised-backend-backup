@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             cryptoElement.addEventListener('click', () => {
-                startTransition(`https://revised-frontend.onrender.com/${crypto.id}`);
+                startTransition(`http://localhost:5001/${crypto.id}`);
             });
 
             cryptoContainer.appendChild(cryptoElement);

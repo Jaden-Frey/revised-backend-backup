@@ -32,13 +32,12 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 
 const corsOptions = {
-  origin: 'https://revised-frontend.onrender.com',
+  origin: 'http://localhost:5001',
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
-
 
 // Middleware to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -136,12 +135,8 @@ function isLoggedOut(req, res, next) {
   res.redirect('/');
 }
 
-app.get('/auth/check', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ authenticated: true, user: { username: req.user.username } });
-  } else {
-    res.json({ authenticated: false });
-  }
+app.get('/auth/check', isAuthenticated, (req, res) => {
+  res.json({ authenticated: true });
 });
 
 function validatePassword(req, res, next) {
@@ -499,11 +494,6 @@ app.get('/:coinId', isAuthenticated, (req, res) => {
     }
     res.status(401).json({ message: 'You Are Not Authorized' });
   }
-
-// Catch-all route to serve index.html from "public" folder for React Router
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
-});
 
 // Fetch data from CoinGecko
 const fetchCoinGeckoData = async () => {

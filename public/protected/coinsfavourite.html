@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourite Coins</title>
+    <link rel="stylesheet" href="mainstyles.css">
+    <link rel="stylesheet" href="coinstyles.css">
+    <link rel="stylesheet" href="transitions.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script>
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                //credentials: 'same-origin' // Include cookies
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login'; // Redirect to the login page after successful logout
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function redirectToFAQ() {
+            window.location.href = "/faq";
+        }
+    </script>
+
+</head>
+<body>
+    <div class="icon-background">
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+    </div>
+
+    <div class="transition transition-cover is-active"></div>
+    <div class="transition transition-uncover is-active"></div>
+    <div class="logo-container" title="Click to logout" onclick="logout()">
+        <div class="logo" id="logout-button">
+            <span class="logo-text"><b>CRYPT</b></span>
+            <div class="logo-gem-container">
+                <i class="bi bi-gem logo-gem"></i>
+            </div>
+            <span class="logo-text"><b>NITE</b></span>
+        </div>
+    </div>
+    
+<div class="page">
+    <header>
+        <nav>
+            <ul class="menu">
+                <li class="menu-item"><a href="/">TUTORIAL PAGE</a></li>
+                <li class="menu-item"><a href="./marksum">MARKET SUMMARY</a></li>
+                <li class="menu-item"><a href="./coins">CURRENCY PAGE</a></li>
+                <li class="menu-item"><a href="/favourites">FAVOURITES PAGE</a></li>
+            </ul>
+        </nav>
+
+        <div class="faq-icon" onClick="redirectToFAQ()">
+            <i class="bi bi-question-circle" title="Off to FAQ"></i>
+        </div>
+    </header>
+
+    <h1>
+        Favourites
+    </h1>
+
+    <div style="position: relative;">
+            <i class="bi bi-question-circle"></i>
+        </a>
+    </div>  
+
+    <div class="crypto-containerfav" id="favorites-container">
+        <!-- Favorite cryptocurrency tiles will be dynamically inserted here -->
+    </div>
+</div>
+
+    <script src="/protected/coinsfavourite.js"></script>
+    <script src="/cryptoicons.js"></script>
+    <script>
+        function setActivePage() {
+            const currentPath = window.location.pathname;
+            const menuItems = document.querySelectorAll('.menu-item a');
+            
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === currentPath) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Call setActivePage when the page loads
+        document.addEventListener('DOMContentLoaded', setActivePage);
+    </script>
+</body>
+</html>

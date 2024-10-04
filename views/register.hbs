@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="faq.css">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="icon-background">
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+        <i class="bi bi-currency-bitcoin icon"></i>
+        <i class="bi bi-graph-up icon"></i>
+        <i class="bi bi-currency-exchange icon"></i>
+        <i class="bi bi-cash-coin icon"></i>
+        <i class="bi bi-pie-chart icon"></i>
+        <i class="bi bi-bar-chart icon"></i>
+        <i class="bi bi-diagram-3 icon"></i>
+        <i class="bi bi-speedometer2 icon"></i>
+        <i class="bi bi-shield icon"></i>
+        <i class="bi bi-lightning icon"></i>
+    </div>
+
+<form id="registerForm" action="/register" method="post">
+    <div>
+        {{#if error}}
+        <p class="err-msg">{{error}}</p>
+        {{/if}}
+    <div id="faqlogo-container" class="faqlogo-container">
+        <div class="faqlogo" id="logout-button">
+            <span class="logo-text">REGISTER</span>
+        </div>
+    </div>
+</div>
+        <div class="form-group">
+            <label>Username: </label>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        </div>
+        <div id="emailDiv" class="form-group">
+            <label>Email: </label>
+            <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label id="passwordLabel">Password: </label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <div>
+            <input type="submit" value="Login">
+        </div>
+    </div>
+</form>
+<script src="/cryptoicons.js"></script> 
+
+</body>
+</html>

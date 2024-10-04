@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
 
             cryptoElement.addEventListener('click', () => {
-                startTransition(`http://localhost:5001/${coin.id}`);
+                startTransition(`https://revised-frontend.onrender.com/${coin.id}`);
             });
 
             favoritesContainer.appendChild(cryptoElement);

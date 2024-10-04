@@ -135,8 +135,12 @@ function isLoggedOut(req, res, next) {
   res.redirect('/');
 }
 
-app.get('/auth/check', isAuthenticated, (req, res) => {
-  res.json({ authenticated: true });
+app.get('/auth/check', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ authenticated: true, user: { username: req.user.username } });
+  } else {
+    res.json({ authenticated: false });
+  }
 });
 
 function validatePassword(req, res, next) {

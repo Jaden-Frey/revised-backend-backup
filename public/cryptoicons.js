@@ -1,36 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     const icons = document.querySelectorAll('.icon');
     const iconSize = 30; 
+    const gap = 40;  
 
     const positions = JSON.parse(localStorage.getItem('iconPositions')) || [];
 
-    function isOverlapping(x, y, size) {
-        return positions.some(({ x: px, y: py, size: ps }) => {
-            const dx = px - x;
-            const dy = py - y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            return distance < (ps / 2 + size / 2) * 1.5;
-        });
+    function calculateGridPosition(index) {
+        const columns = Math.floor(window.innerWidth / (iconSize + gap));
+        const x = (index % columns) * (iconSize + gap);
+        const y = Math.floor(index / columns) * (iconSize + gap);
+        return { x, y };
     }
 
     icons.forEach((icon, index) => {
         let x, y;
 
-        // Use stored position if available, otherwise find a new position
         if (positions[index]) {
             ({ x, y } = positions[index]);
         } else {
-            do {
-                x = Math.random() * (window.innerWidth - iconSize);
-                y = Math.random() * (window.innerHeight - iconSize);
-            } while (isOverlapping(x, y, iconSize));
+            ({ x, y } = calculateGridPosition(index));
             positions.push({ x, y, size: iconSize });
             localStorage.setItem('iconPositions', JSON.stringify(positions));
         }
 
-        const size = 17.5 + Math.random() * 20; 
-        const rotation = Math.random() * 360; 
+        const size = 16 + Math.random() * 10; 
+        const rotation = Math.random() * 30 - 15; 
 
+        icon.style.position = 'absolute';
         icon.style.left = `${x}px`;
         icon.style.top = `${y}px`;
         icon.style.fontSize = `${size}px`;

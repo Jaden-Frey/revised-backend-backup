@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 
 const corsOptions = {
-  origin: 'http://localhost:5001',
+  origin: 'https://revised-frontend.onrender.com',
   credentials: true,
 };
 
@@ -41,7 +41,7 @@ app.options('*', cors(corsOptions));
 
 
 // Middleware to serve static files
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware for parsing JSON and urlencoded data
 app.use(express.urlencoded({ extended: false }));
@@ -485,10 +485,10 @@ app.get('/:coinId', isAuthenticated, (req, res) => {
   const coinId = req.params.coinId;
   const validCoins = ['bitcoin', 'ethereum', 'binancecoin', 'tether', 'usd-coin', 'ripple', 'cardano', 'dogecoin', 'solana', 'polkadot'];
   
-   if (validCoins.includes(coinId)) {
-      res.sendFile(path.join(__dirname, 'src', `${coinId}.js`));
+  if (validCoins.includes(coinId)) {
+      res.sendFile(path.resolve(__dirname, 'src', `${coinId}.js`));
   } else {
-      res.status(404).send('Not Found');
+      res.redirect('/not-found'); 
   }
 });
   
@@ -499,6 +499,11 @@ app.get('/:coinId', isAuthenticated, (req, res) => {
     }
     res.status(401).json({ message: 'You Are Not Authorized' });
   }
+
+// Catch-all route to serve index.html from "public" folder for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
 // Fetch data from CoinGecko
 const fetchCoinGeckoData = async () => {

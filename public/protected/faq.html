@@ -112,26 +112,15 @@
     </div>
     
         <!-- Chatbot Section -->
-       <div class="chatbot-section mt-5">
-        <h2>Have some questions?</h2>
-        <div class="input-group mb-3">
-        <select id="faqQuestion" class="form-control">
-            <option value="" hidden>👨‍🏫 Select An FAQ Option</option>
-            <option value="How are market cap and circulating supply connected?">How are market cap and circulating supply connected?</option>
-            <option value="What can we learn from volume and price trends?">What can we learn from volume and price trends?</option>
-            <option value="Why does market cap fluctuate, and what should I consider?">Why does market cap fluctuate, and what should I consider?</option>
-            <option value="What does 24-hour price change mean for short-term investments?">What does 24-hour price change mean for short-term investments?</option>
-            <option value="What key metrics should I watch for long-term performance?">What key metrics should I watch for long-term performance?</option>
-            <option value="How does volatility affect a coin's investment appeal?">How does volatility affect a coin's investment appeal?</option>
-            <option value="How does volume impact a coin's price stability?">How does volume impact a coin's price stability?</option>
-            <option value="Why is circulating supply crucial for a coin’s price?">Why is circulating supply crucial for a coin’s price?</option>
-            <option value="How do external factors affect a coin's market cap?">How do external factors affect a coin's market cap?</option>
-        </select>
-            <button class="btn btn-primary" id="searchButton">Search</button>
-        </div>
-        <!-- Changed from id="chatbotResponse" to class="answer-container" -->
-        <div class="answer-container" id="chatbotResponse" style="display: none;"></div>            
-    </div>
+        <div class="chatbot-section mt-5">
+            <h2>Have some questions?</h2>
+            <div class="input-group mb-3">
+                <!-- Input for user text input -->
+                <input type="text" id="userQuestion" class="form-control" placeholder="Enter your question here">
+                <button class="btn btn-primary" id="searchButton">Search</button>
+            </div>
+            <div class="answer-container" id="chatbotResponse" style="display: none;"></div>
+        </div>              
 
 <script src="/cryptoicons.js"></script>
 <script src="/faq.js"></script>

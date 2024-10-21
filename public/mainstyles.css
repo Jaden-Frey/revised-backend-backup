@@ -722,7 +722,6 @@ h1:not(form h1) {
 
 .faq-icon {
     position: absolute;
-    z-index: 1100;
     top: 130px;
     right: 25px; 
     font-size: 1.8rem; 
@@ -749,3 +748,45 @@ h1:not(form h1) {
     color: #ffffff; 
     border: 3px solid transparent;
 }
+
+.answer-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1em;
+    color: #333;
+    line-height: 1.7;
+    word-wrap: break-word;
+    padding: 20px;
+}
+
+.answer-container p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.answer-container strong {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    display: block;
+    color: #444;
+}
+
+.answer-container ul {
+    list-style-type: disc;
+    padding-left: 25px;
+    margin-bottom: 20px;
+}
+
+.answer-container li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.answer-container h2, h3 {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #444;
+}
+
+

@@ -12,18 +12,6 @@ const Coin = require('./models/Coin');
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const coinGeckoApiKey = process.env.COINGECKO_API_KEY;
 
-const faqQuestions = [
-  "How are market cap and circulating supply connected?",
-  "What can we learn from volume and price trends?",
-  "Why does market cap fluctuate, and what should I consider?",
-  "What does 24-hour price change mean for short-term investments?",
-  "What key metrics should I watch for long-term performance?",
-  "How does volatility affect a coin's investment appeal?",
-  "How does volume impact a coin's price stability?",
-  "Why is circulating supply crucial for a coin’s price?",
-  "How do external factors affect a coin's market cap?"
-];
-
 require('dotenv').config();
 
 const app = express();
@@ -78,6 +66,21 @@ const UserSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', UserSchema);
+
+// FAQ Schema and Model
+const FAQSchema = new mongoose.Schema({
+  question: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  answer: {
+    type: String,
+    default: null 
+  }
+});
+
+const FAQ = mongoose.model('FAQ', FAQSchema);
 
 // Setup Handlebars
 const handlebars = hbs({ extname: '.hbs' });
@@ -401,36 +404,76 @@ app.get('/faq', isAuthenticated, (req, res) => {
 
 //Route to handle chatbot requests
 app.post('/faq/chatbot', async (req, res) => {
-  const { prompt } = req.body;
+  const { question } = req.body;
 
-  if (faqQuestions.includes(prompt)) {
-      try {
-          const structuredPrompt = `You are an expert in cryptocurrency. Please provide a detailed answer to the following question: "${prompt}". 
-          Format your response using bullet points for clarity, and ensure each bullet point starts with a gem symbol (◆).`;
+  try {
 
-          const response = await axios({
-              method: 'post',
-              url: 'https://api.openai.com/v1/chat/completions',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-              },
-              data: {
-                  model: 'gpt-3.5-turbo',
-                  messages: [{ role: 'user', content: structuredPrompt }],
-                  max_tokens: 400
-              }
-          });
+     let existingFAQ = await FAQ.findOne({ question: question.trim() });
 
-          const gptResponse = response.data.choices[0].message.content.trim();  
-          res.status(200).send(gptResponse);
+     if (!existingFAQ) {
+       const newFAQ = new FAQ({ question });
+       await newFAQ.save();
+     } 
 
-      } catch (error) {
-          console.error('Error with GPT API:', error.response ? error.response.data : error.message);
-          res.status(500).json({ error: 'Something went wrong' });
+    const structuredPrompt = `You are an expert in cryptocurrency. Please provide a detailed, structured answer to the following question: "${question}". Format the response with bold headings for each main point and paragraphs for easy readability.`;
+
+    const response = await axios({
+      method: 'post',
+      url: 'https://api.openai.com/v1/chat/completions',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+      },
+      data: {
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: structuredPrompt }],
+        max_tokens: 500
       }
-  } else {
-      res.status(400).json({ error: 'Invalid question selected.' });
+    });
+
+    let gptResponse = response.data.choices[0].message.content.trim();
+
+    gptResponse = formatResponseWithHeadings(gptResponse);
+
+    res.status(200).json({ message: gptResponse });
+  } catch (error) {
+    console.error('Error with GPT API or database:', error.message);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+function formatResponseWithHeadings(response) {
+  response = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  response = response.replace(/^(\d+\.\s+)(.*?)(\n|$)/gm, '<details><summary><strong>$1$2</strong></summary>');
+
+  response = response.replace(/^- (.*?)(\n|$)/gm, '<li>$1</li>');
+
+  if (response.includes('<li>')) {
+    response = `<ul>${response}</ul>`;
+  }
+
+  response = response.replace(/\n{2,}/g, '</p><p>');
+
+  response = response.replace(/<\/p><p>/g, '</p></details><p>');
+
+  response = response.replace(/<\/p><details>/g, '</p>');
+
+  return `<p>${response}</p>`;
+}
+
+app.get('/faq/suggestions', async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const suggestions = await FAQ.find({
+      question: { $regex: query, $options: 'i' }
+    }).limit(5); 
+
+    res.status(200).json(suggestions.map(faq => faq.question));
+  } catch (error) {
+    console.error('Error fetching suggestions:', error.message);
+    res.status(500).json({ error: 'Something went wrong' });
   }
 });
 
@@ -438,11 +481,11 @@ app.post('/faq/chatbot', async (req, res) => {
 app.post('/api/generate-insights', async (req, res) => {
   const { chartData, selectedRelationship } = req.body;
 
-  const structuredPrompt = `Based on the following cryptocurrency data, please provide insights formatted with bullet points only:
+  const structuredPrompt = `Based on the following cryptocurrency data, please provide insights:
   Relationship: ${selectedRelationship}
   Data: ${JSON.stringify(chartData)}
 
-  Ensure that your response consists of bullet points starting with a gem symbol (◆) for clarity.`;
+  Ensure that your response provides insights clearly stated without numbering but in a list format.`;
 
   try {
     const response = await axios({
@@ -450,7 +493,7 @@ app.post('/api/generate-insights', async (req, res) => {
       url: 'https://api.openai.com/v1/chat/completions',
       headers: {
         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
       },
       data: {
         model: 'gpt-4',
@@ -464,8 +507,9 @@ app.post('/api/generate-insights', async (req, res) => {
       }
     });
 
-    const fullResponse = response.data.choices[0].message.content.trim();  
-    res.json({ insights: fullResponse });
+    let gptResponse = response.data.choices[0].message.content.trim();
+
+    res.json({ insights: gptResponse });
 
   } catch (error) {
     console.error('Error with GPT API:', error.response ? error.response.data : error.message);
@@ -477,7 +521,6 @@ app.post('/api/generate-insights', async (req, res) => {
 app.get('/', isLoggedIn, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'protected', 'index.html')); 
 });
-
 
 //Middleware to serve React
 app.get('/:coinId', isAuthenticated, (req, res) => {
